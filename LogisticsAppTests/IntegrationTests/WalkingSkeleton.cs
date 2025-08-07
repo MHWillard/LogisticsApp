@@ -21,7 +21,6 @@ namespace LogisticsAppTests.IntegrationTests
             set up Selenium or equivalent
              */
             IWebDriver driver = new FirefoxDriver();
-            driver.Url = "https://www.saucelabs.com";
 
             //act/assert
             /*
@@ -36,6 +35,57 @@ namespace LogisticsAppTests.IntegrationTests
             go to Customers
             make sure customer basic info is listed
              */
+
+            driver.Navigate().GoToUrl("https://localhost:7082/");
+            LogIntoWebsite(driver);
+            ClickTab(driver, "orders");
+            //ClickTab(driver, "items");
+            //ClickTab(driver, "customers");
+            Assert.True(CheckForCorrectOrders(driver));
+            //CompareItems(driver);
+            //CompareCustomers(driver);
+            Logout(driver);
+
+            driver.Quit();
+        }
+
+        static void LogIntoWebsite(IWebDriver driver)
+        {
+            var usernameText = driver.FindElement(By.Name("username-textbox"));
+            var passwordText = driver.FindElement(By.Name("password-textbox"));
+            var submitButton = driver.FindElement(By.TagName("login-button"));
+            usernameText.SendKeys("testuser");
+            passwordText.SendKeys("testpassword");
+            submitButton.Click();
+        }
+
+        static void ClickTab(IWebDriver driver, string title)
+        {
+            var titleElementName = title + "-tab";
+            var tabElement = driver.FindElement(By.TagName(titleElementName));
+            tabElement.Click();
+        }
+
+        static bool CheckForCorrectOrders(IWebDriver driver)
+        {
+            //pull in db mock here
+            //check it against what's displayed
+            //return true/false
+            return true;
+        }
+
+        static void CompareItems(IWebDriver driver)
+        {
+
+        }
+
+        static void CompareCustomers(IWebDriver driver)
+        {
+
+        }
+
+        static void Logout(IWebDriver driver) 
+        { 
         }
     }
 }

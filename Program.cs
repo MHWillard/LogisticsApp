@@ -2,7 +2,7 @@ namespace LogisticsApp
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static void Main(String[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 

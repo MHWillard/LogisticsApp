@@ -1,4 +1,5 @@
-﻿using LogisticsApp.Models.Items;
+﻿using LogisticsApp.Controllers;
+using LogisticsApp.Models.Items;
 using LogisticsApp.Models.Orders;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,8 @@ namespace LogisticsAppTests.UnitTests.Orders
                 Description = "item2dec"
             };
 
+            List<Item> items = new List<Item> { Item1, Item2 };
+
             Order Order1 = new Order
             {
                 OrderId = 1,
@@ -44,12 +47,15 @@ namespace LogisticsAppTests.UnitTests.Orders
                 PurchaseDate = DateTime.Now,
                 ShippingDate = DateTime.Now,
                 DeliveryDate = DateTime.Now,
-                Items = 
-            }
+                Items = items
+            };
+
+            OrdersContext context = new OrdersContext();
+            OrdersController ordersController = new OrdersController(context);
 
             //act
             //query table object
-
+            var Order2 = ordersController.GetOrder();
 
             //assert
             //compare

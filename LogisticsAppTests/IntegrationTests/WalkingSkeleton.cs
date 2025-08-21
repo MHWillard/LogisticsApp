@@ -44,7 +44,7 @@ namespace LogisticsAppTests.IntegrationTests
             Assert.True(CheckForCorrectOrders(driver));
             //CompareItems(driver);
             //CompareCustomers(driver);
-            Logout(driver);
+            ClickTab(driver, "logout");
 
             driver.Quit();
         }
@@ -53,7 +53,7 @@ namespace LogisticsAppTests.IntegrationTests
         {
             var usernameText = driver.FindElement(By.Name("username-textbox"));
             var passwordText = driver.FindElement(By.Name("password-textbox"));
-            var submitButton = driver.FindElement(By.TagName("login-button"));
+            var submitButton = driver.FindElement(By.Name("login-button"));
             usernameText.SendKeys("testuser");
             passwordText.SendKeys("testpassword");
             submitButton.Click();
@@ -62,7 +62,7 @@ namespace LogisticsAppTests.IntegrationTests
         static void ClickTab(IWebDriver driver, string title)
         {
             var titleElementName = title + "-tab";
-            var tabElement = driver.FindElement(By.TagName(titleElementName));
+            var tabElement = driver.FindElement(By.ClassName(titleElementName));
             tabElement.Click();
         }
 
@@ -82,10 +82,6 @@ namespace LogisticsAppTests.IntegrationTests
         static void CompareCustomers(IWebDriver driver)
         {
 
-        }
-
-        static void Logout(IWebDriver driver) 
-        { 
         }
     }
 }

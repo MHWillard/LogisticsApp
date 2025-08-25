@@ -21,5 +21,11 @@ namespace LogisticsApp.Controllers
 
             return order;
         }
+
+        public async Task<List<Order>> GetOrders()
+        {
+            var orders = await _context.Orders.ToListAsync();
+            return orders;
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using LogisticsApp.Controllers;
 using LogisticsApp.Models.Items;
 using LogisticsApp.Models.Orders;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,14 @@ namespace LogisticsAppTests.UnitTests.Orders
     public class OrderTests
     {
         [Fact]
-        public void GetOrdersSucceeds()
+        public async Task GetOrdersSucceeds()
         {
             //arrange
+            //mock DB
+            var options = new DbContextOptionsBuilder<OrdersContext>()
+                .UseInMemoryDatabase(databaseName: "GetOrdersSucceeds")
+                .Options;
+
             //database setup, object that we're looking for
             Item Item1 = new Item
             {
@@ -52,14 +58,22 @@ namespace LogisticsAppTests.UnitTests.Orders
 
             OrdersContext context = new OrdersContext();
             OrdersController ordersController = new OrdersController(context);
+            context.Orders.Add(Order1);
+            context.SaveChanges();
 
             //act
             //query table object
-            var Order2 = ordersController.GetOrder();
+            var result = await ordersController.GetOrders();
 
             //assert
-            //compare
-
+            Assert.Single(result);
+            var returnedOrder = result[0];
+            Assert.Equal(Order1.OrderId, returnedOrder.OrderId);
+            Assert.Equal(Order1.Buyer, returnedOrder.Buyer);
+            Assert.Equal(Order1.Seller, returnedOrder.Seller);
+            Assert.Equal(Order1.Items.Count, returnedOrder.Items.Count);
+            Assert.Equal(Order1.Items[0].Name, returnedOrder.Items[0].Name);
+            Assert.Equal(Order1.Items[1].Name, returnedOrder.Items[1].Name);
         }
     }
 }

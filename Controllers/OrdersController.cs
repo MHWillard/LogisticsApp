@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using static OpenQA.Selenium.PrintOptions;
 
 namespace LogisticsApp.Controllers
 {
@@ -24,7 +25,10 @@ namespace LogisticsApp.Controllers
 
         public async Task<List<Order>> GetOrders()
         {
-            var orders = await _context.Orders.ToListAsync();
+            var orders = await _context.Orders
+                .OrderBy(o => o.OrderId)
+                .ToListAsync();
+
             return orders;
         }
     }
